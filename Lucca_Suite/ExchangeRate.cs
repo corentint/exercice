@@ -2,7 +2,7 @@
 {
     public class ExchangeRate
     {
-        public ExchangeRate(string sourceCurrencySymbol, string destinationCurrencySymbol, double rate)
+        public ExchangeRate(string sourceCurrencySymbol, string destinationCurrencySymbol, decimal rate)
         {
             SourceCurrencySymbol = sourceCurrencySymbol;
             DestinationCurrencySymbol = destinationCurrencySymbol;  
@@ -11,6 +11,6 @@
 
         public string SourceCurrencySymbol { get; private set; }
         public string DestinationCurrencySymbol { get; private set; }
-        public double Rate { get; private set; }
+        public decimal Rate { get; private set; }
     }
 }

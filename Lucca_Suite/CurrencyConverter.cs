@@ -13,60 +13,44 @@ namespace Lucca_Suite
 
         public decimal GetResult()
         {
-            List<string> excludedCurrencies = new List<string>();
-            excludedCurrencies.Add(FileReader.InitialMoney.Currency);
+            var currencies = FileReader.ExchangeRates;
+            var exchangePath = new Stack<ExchangeRate>();
+            string currentlyTestedCurrency = FileReader.InitialMoney.Currency;
 
+            Func<ExchangeRate, bool> exchangeRateWithMatchingSource = x => x.SourceCurrencySymbol == currentlyTestedCurrency
+                                        && !exchangePath.Any(y => y.SourceCurrencySymbol == x.DestinationCurrencySymbol);
 
-            var matchingValues = FileReader.MatchingValues;
-
-            var initialCurrenciesAvailable = matchingValues[FileReader.InitialMoney.Currency];
-
-            // curerncies not to consider
-
-            // Find path between node algorithm
-            var currencies = FileReader.currencies;
-            var stackResult = new Stack<Tuple<string, string>>();
-            var initialCurrency = FileReader.InitialMoney.Currency;
-            var targetCurrency = FileReader.TargetCurrency;
-
-            string currentlyTestedCurrency = initialCurrency;
             for (int i = 0; i < 20; i++)
             {
-                if (currentlyTestedCurrency == targetCurrency)
+                if (currentlyTestedCurrency == FileReader.TargetCurrency)
                 {
                     break;
                 }
-                else if (currencies.Any(x => x.Item1 == currentlyTestedCurrency && !stackResult.Any(y => y.Item1 == x.Item2)))
+                else if (currencies.Any(exchangeRateWithMatchingSource))
                 {
-                    var currencyLink = currencies.FirstOrDefault(x => x.Item1 == currentlyTestedCurrency && !stackResult.Any(y => y.Item1 == x.Item2));
-                    stackResult.Push(currencyLink);
-                    currentlyTestedCurrency = currencyLink.Item2;
+                    var exchange = currencies.FirstOrDefault(exchangeRateWithMatchingSource);
+                    exchangePath.Push(exchange);
+                    currentlyTestedCurrency = exchange.DestinationCurrencySymbol;
                 }
                 else
                 {
-                    var deadenlink = stackResult.Pop();
-                    currentlyTestedCurrency = deadenlink.Item1;
-                    currencies.Remove(deadenlink);
+                    var deadendlink = exchangePath.Pop();
+                    currentlyTestedCurrency = deadendlink.SourceCurrencySymbol;
+                    currencies.Remove(deadendlink);
                 }
             }
 
-            return 0;
+            return ApplyExchangeRates(FileReader.InitialMoney.Amount, exchangePath.Reverse());
         }
 
-        public void FindConversionPath()
+        private decimal ApplyExchangeRates(decimal initialValue, IEnumerable<ExchangeRate> exchangeRates)
         {
-
-
-            //var allCurrencies = ExchangeRates.Select(x => x.SourceCurrencySymbol).Concat(ExchangeRates.Select(x => x.SourceCurrencySymbol)).Distinct().ToList();
-
-            //var test = ExchangeRates
-            //    .Where(y => y.SourceCurrencySymbol == x || y.DestinationCurrencySymbol == x)
-            //    .Select(y => y.SourceCurrencySymbol)
-            //    .ToList();
-            //Dictionary<string, List<string>> availableExchanges =
-            //    allCurrencies.ToDictionary(x => new List<string>());
-
-            // For one of the 2 values we want to go towards the target currency
+            decimal result = initialValue;
+            foreach (var exchangeRate in exchangeRates)
+            {
+                result = Math.Round(result * exchangeRate.Rate, 4);
+            }
+            return Math.Ceiling(result);
         }
     }
 }
