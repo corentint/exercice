@@ -20,4 +20,10 @@
     <ProjectReference Include="..\Lucca_Suite\Lucca_Suite.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
