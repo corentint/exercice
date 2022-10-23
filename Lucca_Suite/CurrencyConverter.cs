@@ -4,43 +4,88 @@ namespace Lucca_Suite
 {
     internal class CurrencyConverter
     {
-        public FileReader FileReader { get; set; }
+        public StringToObjectsAdapter StringToObjectsAdapter { get; set; }
 
-        public CurrencyConverter(FileReader fileReader)
+        public CurrencyConverter(StringToObjectsAdapter stringToObjectsAdapter)
         {
-            FileReader = fileReader;
+            StringToObjectsAdapter = stringToObjectsAdapter;
         }
 
         public decimal GetResult()
         {
-            var currencies = FileReader.ExchangeRates;
-            var exchangePath = new Stack<ExchangeRate>();
-            string currentlyTestedCurrency = FileReader.InitialMoney.Currency;
+            var exchangePath = BuildExchangePath(
+                StringToObjectsAdapter.ExchangeRates,
+                StringToObjectsAdapter.InitialMoney.Currency,
+                StringToObjectsAdapter.TargetCurrency);
 
-            Func<ExchangeRate, bool> exchangeRateWithMatchingSource = x => x.SourceCurrencySymbol == currentlyTestedCurrency
-                                        && !exchangePath.Any(y => y.SourceCurrencySymbol == x.DestinationCurrencySymbol);
+            return ApplyExchangeRates(StringToObjectsAdapter.InitialMoney.Amount, exchangePath);
+        }
 
-            for (int i = 0; i < 20; i++)
-            {
-                if (currentlyTestedCurrency == FileReader.TargetCurrency)
+        private IEnumerable<ExchangeRate> BuildExchangePath(
+            List<ExchangeRate> availableEchangeRates,
+            string initialCurrency,
+            string targetCurrency)
+        {
+            var exchangeRatesPath = new List<ExchangeRate>();
+            string currentlyTestedCurrency = initialCurrency;
+
+            Func<ExchangeRate, bool> exchangeRateWithMatchingSource = 
+                x => 
+                x.SourceCurrencySymbol == currentlyTestedCurrency
+                && !exchangeRatesPath.Any(y => y.SourceCurrencySymbol == x.DestinationCurrencySymbol);
+
+            while(true)
+            { 
+                if (currentlyTestedCurrency == targetCurrency)
                 {
+                    // We found an exchange path
                     break;
                 }
-                else if (currencies.Any(exchangeRateWithMatchingSource))
+                else if (availableEchangeRates.Any(exchangeRateWithMatchingSource))
                 {
-                    var exchange = currencies.FirstOrDefault(exchangeRateWithMatchingSource);
-                    exchangePath.Push(exchange);
-                    currentlyTestedCurrency = exchange.DestinationCurrencySymbol;
+                    // The currently tested currency may lead to the target currency
+                    currentlyTestedCurrency = AddExchangeRateToPath(
+                        exchangeRatesPath,
+                        availableEchangeRates,
+                        exchangeRateWithMatchingSource);
+                }
+                else if (exchangeRatesPath.Count == 0)
+                {
+                    // An Exchange path does not exist
+                    Console.WriteLine("not possible!");
+                    break;
                 }
                 else
                 {
-                    var deadendlink = exchangePath.Pop();
-                    currentlyTestedCurrency = deadendlink.SourceCurrencySymbol;
-                    currencies.Remove(deadendlink);
+                    // The currently tested currency does not lead to the target currency
+                    currentlyTestedCurrency = RemoveExchangeRateFromPath(
+                        exchangeRatesPath,
+                        availableEchangeRates);
                 }
             }
 
-            return ApplyExchangeRates(FileReader.InitialMoney.Amount, exchangePath.Reverse());
+            return exchangeRatesPath;
+        }
+
+        private string AddExchangeRateToPath(
+            List<ExchangeRate> exchangeRatesPath,
+            List<ExchangeRate> availableEchangeRates,
+            Func<ExchangeRate, bool> exchangeRateWithMatchingSource)
+        {
+            var exchange = availableEchangeRates.FirstOrDefault(exchangeRateWithMatchingSource);
+            exchangeRatesPath.Add(exchange);
+            return exchange.DestinationCurrencySymbol;
+        }
+
+        private string RemoveExchangeRateFromPath(
+            List<ExchangeRate> exchangeRatesPath,
+            List<ExchangeRate> availableEchangeRates)
+        {
+            var deadendlink = exchangeRatesPath[exchangeRatesPath.Count - 1];
+            exchangeRatesPath.Remove(deadendlink);
+            availableEchangeRates.Remove(deadendlink);
+
+            return deadendlink.SourceCurrencySymbol;
         }
 
         private decimal ApplyExchangeRates(decimal initialValue, IEnumerable<ExchangeRate> exchangeRates)
