@@ -4,12 +4,11 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        //string pathRead = args[0];
-        string pathRead = "C:\\Users\\Corentin\\source\\repos\\Lucca_Suite\\Lucca_Suite\\input.txt";
+        string path = args[0];
 
-        var fileReader = new FileReader(pathRead);
+        var lines = FileReader.ReadAllLines(path);
 
-        var currencyData = CurrencySerializer.Deserialize(fileReader.Lines);
+        var currencyData = CurrencySerializer.Deserialize(lines);
 
         var currencyConverter =  new CurrencyConverter(currencyData);
         

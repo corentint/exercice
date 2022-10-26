@@ -12,14 +12,14 @@ namespace Luccas_Suite_Test
         public void FileReader_WrongFileName_Throws()
         {
             // Act
-            Assert.Throws<FileNotFoundException>(() => new FileReader(NON_EXISTING_FILE_NAME));
+            Assert.Throws<FileNotFoundException>(() => FileReader.ReadAllLines(NON_EXISTING_FILE_NAME));
         }
 
         [Test]
         public void FileReader_NotExistingDirectory_Throws()
         {
             // Act
-            Assert.Throws<DirectoryNotFoundException>(() => new FileReader(NON_EXISTING_DIRECTORY_NAME));
+            Assert.Throws<DirectoryNotFoundException>(() => FileReader.ReadAllLines(NON_EXISTING_DIRECTORY_NAME));
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace Luccas_Suite_Test
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), VALID_FILE_PATH);
 
             // Act
-            Assert.DoesNotThrow(() => new FileReader(filePath));
+            Assert.DoesNotThrow(() => FileReader.ReadAllLines(filePath));
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace Luccas_Suite_Test
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), VALID_FILE_PATH);
 
             // Act
-            Assert.DoesNotThrow(() => new FileReader(filePath));
+            Assert.DoesNotThrow(() => FileReader.ReadAllLines(filePath));
         }
     }
 }

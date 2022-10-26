@@ -53,8 +53,7 @@ namespace Lucca_Suite
                 else if (exchangeRatesPath.Count == 0)
                 {
                     // An Exchange path does not exist
-                    Console.WriteLine("not possible!");
-                    break;
+                    throw new Exception($"There is no exchange path between {initialCurrency} and {targetCurrency}");
                 }
                 else
                 {

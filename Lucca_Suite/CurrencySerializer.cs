@@ -16,6 +16,7 @@ namespace Lucca_Suite
                 InitialMoney = BuildInitialMoney(firstLine),
                 TargetCurrency = BuildTargetCurrency(firstLine),
             };
+
             return result;
         }
 
@@ -72,7 +73,7 @@ namespace Lucca_Suite
                 BuildInitialAmount(firstLineParts));
         }
 
-        private static string? BuildInitialCurrency(string[] lineParts)
+        private static string BuildInitialCurrency(string[] lineParts)
         {
             return lineParts[0];
         }
@@ -82,7 +83,7 @@ namespace Lucca_Suite
             return decimal.Parse(lineParts[1]);
         }
 
-        private static string? BuildTargetCurrency(string[] lineParts)
+        private static string BuildTargetCurrency(string[] lineParts)
         {
             return lineParts[2];
         }
