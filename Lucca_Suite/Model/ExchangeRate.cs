@@ -1,11 +1,11 @@
-﻿namespace Lucca_Suite
+﻿namespace Lucca_Suite.Model
 {
     public class ExchangeRate
     {
         public ExchangeRate(string sourceCurrencySymbol, string destinationCurrencySymbol, decimal rate)
         {
             SourceCurrencySymbol = sourceCurrencySymbol;
-            DestinationCurrencySymbol = destinationCurrencySymbol;  
+            DestinationCurrencySymbol = destinationCurrencySymbol;
             Rate = rate;
         }
 

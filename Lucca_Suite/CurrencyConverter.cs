@@ -1,24 +1,25 @@
-﻿using System.Linq;
+﻿using Lucca_Suite.Model;
 
 namespace Lucca_Suite
 {
-    internal class CurrencyConverter
+    public class CurrencyConverter
     {
-        public StringToObjectsAdapter StringToObjectsAdapter { get; set; }
+        const int NUMBER_OF_DECIMALS = 4;
+        public CurrencyData CurrencyData { get; set; }
 
-        public CurrencyConverter(StringToObjectsAdapter stringToObjectsAdapter)
+        public CurrencyConverter(CurrencyData currencyData)
         {
-            StringToObjectsAdapter = stringToObjectsAdapter;
+            CurrencyData = currencyData;
         }
 
         public decimal GetResult()
         {
             var exchangePath = BuildExchangePath(
-                StringToObjectsAdapter.ExchangeRates,
-                StringToObjectsAdapter.InitialMoney.Currency,
-                StringToObjectsAdapter.TargetCurrency);
+                CurrencyData.ExchangeRates,
+                CurrencyData.InitialMoney.Currency,
+                CurrencyData.TargetCurrency);
 
-            return ApplyExchangeRates(StringToObjectsAdapter.InitialMoney.Amount, exchangePath);
+            return ApplyExchangeRates(CurrencyData.InitialMoney.Amount, exchangePath);
         }
 
         private IEnumerable<ExchangeRate> BuildExchangePath(
@@ -93,7 +94,7 @@ namespace Lucca_Suite
             decimal result = initialValue;
             foreach (var exchangeRate in exchangeRates)
             {
-                result = Math.Round(result * exchangeRate.Rate, 4);
+                result = Math.Round(result * exchangeRate.Rate, NUMBER_OF_DECIMALS);
             }
             return Math.Ceiling(result);
         }
