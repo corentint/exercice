@@ -1,4 +1,5 @@
 ﻿using Lucca_Suite.Model;
+using System.Security;
 
 namespace Lucca_Suite
 {
@@ -20,6 +21,41 @@ namespace Lucca_Suite
                 CurrencyData.TargetCurrency);
 
             return ApplyExchangeRates(CurrencyData.InitialMoney.Amount, exchangePath);
+        }
+
+        public decimal BFSAlgo()
+        {
+            var vertices = CurrencyData.ExchangeRates.Select(x => x.SourceCurrencySymbol).Distinct();
+
+            var edges = CurrencyData.ExchangeRates.Select(x => new Tuple<string, string>(x.SourceCurrencySymbol, x.DestinationCurrencySymbol));
+
+            var graph = new Graph<string>(vertices, edges);
+
+            var algortihm = new BFSAlgorithm();
+
+            var shortestPathFunc = algortihm.ShortestPathFunction(graph, "EUR");
+
+            var resultCurrencies = shortestPathFunc(CurrencyData.TargetCurrency);
+
+            var resultExchangeRates = ConvertToExchangeRates(resultCurrencies.ToArray(), CurrencyData.ExchangeRates);
+
+            return ApplyExchangeRates(CurrencyData.InitialMoney.Amount, resultExchangeRates);
+        }
+
+        private IEnumerable<ExchangeRate> ConvertToExchangeRates(
+            string[] resultCurrencies,
+            IEnumerable<ExchangeRate> allExchangeRates)
+        {
+            var exchangeRates = new List<ExchangeRate>();
+
+            for (int i = 0; i < resultCurrencies.Count() - 1; i++)
+            {
+                exchangeRates.Add(allExchangeRates.Single(
+                    x => x.SourceCurrencySymbol == resultCurrencies[i]
+                        && x.DestinationCurrencySymbol == resultCurrencies[i + 1]));
+            }
+
+            return exchangeRates;
         }
 
         private IEnumerable<ExchangeRate> BuildExchangePath(
