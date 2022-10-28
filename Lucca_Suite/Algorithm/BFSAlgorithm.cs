@@ -1,8 +1,28 @@
-﻿namespace Lucca_Suite
+﻿// Coming from https://www.koderdojo.com/blog/breadth-first-search-and-shortest-path-in-csharp-and-net-core
+using Lucca_Suite.Interface;
+
+namespace Lucca_Suite.Algorithm
 {
-    public class Algorithm
+    public class BFSAlgorithm : IShortestPathFinder
     {
-        public Func<T, IEnumerable<T>> ShortestPathFunction<T>(Graph<T> graph, T start)
+        public IEnumerable<string> GetShortestPath(Graph<string> graph, string start, string end)
+        {
+            Func<string, IEnumerable<string>> shortestPathFunc;
+
+            try
+            {
+                shortestPathFunc = ShortestPathFunction(graph, start);
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine("No path possible for the current input");
+                throw;
+            }
+
+            return shortestPathFunc(end);
+        }
+
+        private Func<T, IEnumerable<T>> ShortestPathFunction<T>(Graph<T> graph, T start)
         {
             var previous = new Dictionary<T, T>();
 
@@ -22,7 +42,8 @@
                 }
             }
 
-            Func<T, IEnumerable<T>> shortestPath = v => {
+            Func<T, IEnumerable<T>> shortestPath = v =>
+            {
                 var path = new List<T> { };
 
                 var current = v;

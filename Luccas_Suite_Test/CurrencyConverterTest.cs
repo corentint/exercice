@@ -63,11 +63,11 @@ namespace Luccas_Suite_Test
             var currencyConverter = new CurrencyConverter(currencyData);
 
             // Act - Assert
-            Assert.Throws<Exception>(() => currencyConverter.GetResult());
+            Assert.Throws<KeyNotFoundException>(() => currencyConverter.GetResult());
         }
 
         [Test]
-        public void CurrencyConverter_DFSAlgo_ReturnsExpectedResult()
+        public void CurrencyConverter_GetResult_ValidInput_ReturnsExpectedResult()
         {
             // Arrange
             var currencyData = new CurrencyData()
@@ -93,7 +93,7 @@ namespace Luccas_Suite_Test
             var currencyConverter = new CurrencyConverter(currencyData);
 
             // Act
-            var result = currencyConverter.BFSAlgo();
+            var result = currencyConverter.GetResult();
 
             // Assert
             Assert.That(result, Is.EqualTo(59033));

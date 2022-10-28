@@ -1,4 +1,4 @@
-﻿namespace Lucca_Suite
+﻿namespace Lucca_Suite.Algorithm
 {
     public class Graph<T>
     {
