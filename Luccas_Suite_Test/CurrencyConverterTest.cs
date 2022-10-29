@@ -1,4 +1,5 @@
 using Lucca_Suite;
+using Lucca_Suite.Algorithm;
 using Lucca_Suite.Model;
 
 namespace Luccas_Suite_Test
@@ -29,10 +30,10 @@ namespace Luccas_Suite_Test
                     new ExchangeRate("INR", "JPY", 1/0.6571m),
                 }
             };
-            var currencyConverter = new CurrencyConverter(currencyData);
+            var currencyConverter = new CurrencyConverter(new BFSAlgorithm());
 
             // Act
-            var result = currencyConverter.GetResult();
+            var result = currencyConverter.GetResult(currencyData);
 
             // Assert
             Assert.That(result, Is.EqualTo(59033));
@@ -60,10 +61,10 @@ namespace Luccas_Suite_Test
                     new ExchangeRate("INR", "JPY", 1/0.6571m),
                 }
             };
-            var currencyConverter = new CurrencyConverter(currencyData);
+            var currencyConverter = new CurrencyConverter(new BFSAlgorithm());
 
             // Act - Assert
-            Assert.Throws<KeyNotFoundException>(() => currencyConverter.GetResult());
+            Assert.Throws<KeyNotFoundException>(() => currencyConverter.GetResult(currencyData));
         }
 
         [Test]
@@ -90,10 +91,10 @@ namespace Luccas_Suite_Test
                     new ExchangeRate("INR", "JPY", 1/0.6571m),
                 }
             };
-            var currencyConverter = new CurrencyConverter(currencyData);
+            var currencyConverter = new CurrencyConverter(new BFSAlgorithm());
 
             // Act
-            var result = currencyConverter.GetResult();
+            var result = currencyConverter.GetResult(currencyData);
 
             // Assert
             Assert.That(result, Is.EqualTo(59033));

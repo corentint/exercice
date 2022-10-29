@@ -7,28 +7,27 @@ namespace Lucca_Suite
     public class CurrencyConverter
     {
         const int NUMBER_OF_DECIMALS = 4;
-        public CurrencyData CurrencyData { get; set; }
 
-        public CurrencyConverter(CurrencyData currencyData)
+        public IShortestPathFinder Algorithm { get; }
+
+        public CurrencyConverter(IShortestPathFinder algorithm)
         {
-            CurrencyData = currencyData;
+            Algorithm = algorithm;
         }
 
-        public decimal GetResult()
+        public decimal GetResult(CurrencyData currencyData)
         {
-            var vertices = CurrencyData.ExchangeRates.Select(x => x.SourceCurrencySymbol).Distinct();
+            var vertices = currencyData.ExchangeRates.Select(x => x.SourceCurrencySymbol).Distinct();
 
-            var edges = CurrencyData.ExchangeRates.Select(x => new Tuple<string, string>(x.SourceCurrencySymbol, x.DestinationCurrencySymbol));
+            var edges = currencyData.ExchangeRates.Select(x => new Tuple<string, string>(x.SourceCurrencySymbol, x.DestinationCurrencySymbol));
 
             var graph = new Graph<string>(vertices, edges);
 
-            IShortestPathFinder algorithm = new BFSAlgorithm();
+            var resultCurrencies = Algorithm.GetShortestPath(graph, currencyData.InitialMoney.Currency, currencyData.TargetCurrency);
 
-            var resultCurrencies = algorithm.GetShortestPath(graph, CurrencyData.InitialMoney.Currency, CurrencyData.TargetCurrency);
+            var resultExchangeRates = ConvertToExchangeRates(resultCurrencies.ToArray(), currencyData.ExchangeRates);
 
-            var resultExchangeRates = ConvertToExchangeRates(resultCurrencies.ToArray(), CurrencyData.ExchangeRates);
-
-            return ApplyExchangeRates(CurrencyData.InitialMoney.Amount, resultExchangeRates);
+            return ApplyExchangeRates(currencyData.InitialMoney.Amount, resultExchangeRates);
         }
 
         private static IEnumerable<ExchangeRate> ConvertToExchangeRates(

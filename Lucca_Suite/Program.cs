@@ -1,4 +1,6 @@
 ﻿using Lucca_Suite;
+using Lucca_Suite.Algorithm;
+using Lucca_Suite.Interface;
 
 internal class Program
 {
@@ -10,9 +12,11 @@ internal class Program
 
         var currencyData = CurrencySerializer.Deserialize(lines);
 
-        var currencyConverter =  new CurrencyConverter(currencyData);
+        IShortestPathFinder algorithm = new BFSAlgorithm();
+
+        var currencyConverter =  new CurrencyConverter(algorithm);
         
-        Console.WriteLine(currencyConverter.GetResult());
+        Console.WriteLine(currencyConverter.GetResult(currencyData));
 
     }
 }
