@@ -5,7 +5,7 @@ namespace Luccas_Suite_Test.Algorithm
     public class BFSAlgorithmTest
     {
         [Test]
-        public void BFSAlgorithm_GetResult_ReturnsShortestPathResult()
+        public void BFSAlgorithm_GetResult_WithMultipleExchangePaths_ReturnsShortestPath()
         {
             // Arrange
             // EUR -> USD -> CHF -> JPY -> GBP VS EUR -> JPY -> GBP
