@@ -2,7 +2,6 @@
 {
     public class Graph<T>
     {
-        public Graph() { }
         public Graph(IEnumerable<T> vertices, IEnumerable<Tuple<T, T>> edges)
         {
             foreach (var vertex in vertices)

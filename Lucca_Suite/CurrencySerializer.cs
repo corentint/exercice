@@ -10,12 +10,10 @@ namespace Lucca_Suite
         public static CurrencyData Deserialize(string[] lines)
         {
             var firstLine = BuildFirstLineParts(lines);
-            var result = new CurrencyData
-            {
-                ExchangeRates = BuildExchangeRates(lines),
-                InitialMoney = BuildInitialMoney(firstLine),
-                TargetCurrency = BuildTargetCurrency(firstLine),
-            };
+            var result = new CurrencyData(
+                BuildExchangeRates(lines),
+                BuildInitialMoney(firstLine),
+                BuildTargetCurrency(firstLine));
 
             return result;
         }

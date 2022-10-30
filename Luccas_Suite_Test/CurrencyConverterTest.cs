@@ -10,11 +10,10 @@ namespace Luccas_Suite_Test
         public void CurrencyConverter_GetResult_ReturnsExpectedResult()
         {
             // Arrange
-            var currencyData = new CurrencyData()
-            {
-                InitialMoney = new Money("EUR", 550),
-                TargetCurrency = "JPY",
-                ExchangeRates = new List<ExchangeRate>
+            var currencyData = new CurrencyData(
+                initialMoney: new Money("EUR", 550),
+                targetCurrency: "JPY",
+                exchangeRates: new List<ExchangeRate>
                 {
                     new ExchangeRate("AUD", "CHF", 0.9661m),
                     new ExchangeRate("CHF", "AUD", 1/0.9661m),
@@ -29,7 +28,7 @@ namespace Luccas_Suite_Test
                     new ExchangeRate("JPY", "INR", 0.6571m),
                     new ExchangeRate("INR", "JPY", 1/0.6571m),
                 }
-            };
+            );
             var currencyConverter = new CurrencyConverter(new BFSAlgorithm());
 
             // Act
@@ -43,11 +42,10 @@ namespace Luccas_Suite_Test
         public void CurrencyConverter_GetResult_NoPossiblePath_ThrowsException()
         {
             // Arrange
-            var currencyData = new CurrencyData()
-            {
-                InitialMoney = new Money("EUR", 550),
-                TargetCurrency = "JPY",
-                ExchangeRates = new List<ExchangeRate>
+            var currencyData = new CurrencyData(
+                initialMoney: new Money("EUR", 550),
+                targetCurrency: "JPY",
+                exchangeRates: new List<ExchangeRate>
                 {
                     new ExchangeRate("AUD", "CHF", 0.9661m),
                     new ExchangeRate("CHF", "AUD", 1/0.9661m),
@@ -60,7 +58,7 @@ namespace Luccas_Suite_Test
                     new ExchangeRate("JPY", "INR", 0.6571m),
                     new ExchangeRate("INR", "JPY", 1/0.6571m),
                 }
-            };
+            );
             var currencyConverter = new CurrencyConverter(new BFSAlgorithm());
 
             // Act - Assert
@@ -71,11 +69,10 @@ namespace Luccas_Suite_Test
         public void CurrencyConverter_GetResult_ValidInput_ReturnsExpectedResult()
         {
             // Arrange
-            var currencyData = new CurrencyData()
-            {
-                InitialMoney = new Money("EUR", 550),
-                TargetCurrency = "JPY",
-                ExchangeRates = new List<ExchangeRate>
+            var currencyData = new CurrencyData(
+                initialMoney: new Money("EUR", 550),
+                targetCurrency: "JPY",
+                exchangeRates: new List<ExchangeRate>
                 {
                     new ExchangeRate("AUD", "CHF", 0.9661m),
                     new ExchangeRate("CHF", "AUD", 1/0.9661m),
@@ -90,7 +87,7 @@ namespace Luccas_Suite_Test
                     new ExchangeRate("JPY", "INR", 0.6571m),
                     new ExchangeRate("INR", "JPY", 1/0.6571m),
                 }
-            };
+            );
             var currencyConverter = new CurrencyConverter(new BFSAlgorithm());
 
             // Act
