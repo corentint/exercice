@@ -8,11 +8,11 @@ namespace Lucca_Suite
     {
         const int NUMBER_OF_DECIMALS = 4;
 
-        public IShortestPathFinder Algorithm { get; }
+        private readonly IShortestPathFinder _algorithm;
 
         public CurrencyConverter(IShortestPathFinder algorithm)
         {
-            Algorithm = algorithm;
+            _algorithm = algorithm;
         }
 
         public decimal GetResult(CurrencyData currencyData)
@@ -23,20 +23,20 @@ namespace Lucca_Suite
 
             var graph = new Graph<string>(vertices, edges);
 
-            var resultCurrencies = Algorithm.GetShortestPath(graph, currencyData.InitialMoney.Currency, currencyData.TargetCurrency);
+            var resultCurrencies = _algorithm.GetShortestPath(graph, currencyData.InitialMoney.Currency, currencyData.TargetCurrency);
 
-            var resultExchangeRates = ConvertToExchangeRates(resultCurrencies.ToArray(), currencyData.ExchangeRates);
+            var resultExchangeRates = ConvertPathToExchangeRates(resultCurrencies.ToArray(), currencyData.ExchangeRates);
 
             return ApplyExchangeRates(currencyData.InitialMoney.Amount, resultExchangeRates);
         }
 
-        private static IEnumerable<ExchangeRate> ConvertToExchangeRates(
+        private static IEnumerable<ExchangeRate> ConvertPathToExchangeRates(
             string[] resultCurrencies,
-            IEnumerable<ExchangeRate> allExchangeRates)
+            List<ExchangeRate> allExchangeRates)
         {
             var exchangeRates = new List<ExchangeRate>();
 
-            for (int i = 0; i < resultCurrencies.Count() - 1; i++)
+            for (int i = 0; i < resultCurrencies.Length - 1; i++)
             {
                 exchangeRates.Add(allExchangeRates.Single(
                     x => x.SourceCurrencySymbol == resultCurrencies[i]
