@@ -7,19 +7,16 @@ namespace LuccaDevises.Algorithm
     {
         public IEnumerable<string> GetShortestPath(Graph<string> graph, string start, string end)
         {
-            Func<string, IEnumerable<string>> shortestPathFunc;
-
+            Func<string, IEnumerable<string>> shortestPathFunc = ShortestPathFunction(graph, start);
             try
             {
-                shortestPathFunc = ShortestPathFunction(graph, start);
+                return shortestPathFunc(end);
             }
             catch (KeyNotFoundException)
             {
                 Console.WriteLine("No path possible for the current input");
                 throw;
             }
-
-            return shortestPathFunc(end);
         }
 
         private static Func<T, IEnumerable<T>> ShortestPathFunction<T>(Graph<T> graph, T start) where T : notnull
