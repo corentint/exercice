@@ -1,4 +1,4 @@
-﻿namespace Lucca_Suite.Model
+﻿namespace LuccaDevises.Model
 {
     public class Money
     {

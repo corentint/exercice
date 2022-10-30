@@ -1,4 +1,4 @@
-﻿using Lucca_Suite.Algorithm;
+﻿using LuccaDevises.Algorithm;
 
 namespace Luccas_Suite_Test.Algorithm
 {

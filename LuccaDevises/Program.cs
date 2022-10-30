@@ -1,6 +1,6 @@
-﻿using Lucca_Suite;
-using Lucca_Suite.Algorithm;
-using Lucca_Suite.Interface;
+﻿using LuccaDevises;
+using LuccaDevises.Algorithm;
+using LuccaDevises.Interface;
 
 internal class Program
 {

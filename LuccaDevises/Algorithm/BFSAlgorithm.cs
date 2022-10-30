@@ -1,7 +1,7 @@
 ﻿// Coming from https://www.koderdojo.com/blog/breadth-first-search-and-shortest-path-in-csharp-and-net-core
-using Lucca_Suite.Interface;
+using LuccaDevises.Interface;
 
-namespace Lucca_Suite.Algorithm
+namespace LuccaDevises.Algorithm
 {
     public class BFSAlgorithm: IShortestPathFinder
     {

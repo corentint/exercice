@@ -1,4 +1,4 @@
-﻿namespace Lucca_Suite
+﻿namespace LuccaDevises
 {
     public class FileReader
     {

@@ -1,4 +1,4 @@
-using Lucca_Suite;
+using LuccaDevises;
 
 namespace Luccas_Suite_Test
 {

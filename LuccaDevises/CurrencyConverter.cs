@@ -1,8 +1,8 @@
-﻿using Lucca_Suite.Algorithm;
-using Lucca_Suite.Interface;
-using Lucca_Suite.Model;
+﻿using LuccaDevises.Algorithm;
+using LuccaDevises.Interface;
+using LuccaDevises.Model;
 
-namespace Lucca_Suite
+namespace LuccaDevises
 {
     public class CurrencyConverter
     {

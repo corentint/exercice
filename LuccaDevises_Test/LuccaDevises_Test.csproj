@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lucca_Suite\Lucca_Suite.csproj" />
+    <ProjectReference Include="..\LuccaDevises\LuccaDevises.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
-using Lucca_Suite.Model;
+using LuccaDevises.Model;
 
-namespace Lucca_Suite
+namespace LuccaDevises
 {
     public class CurrencySerializer
     {

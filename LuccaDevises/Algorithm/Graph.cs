@@ -1,4 +1,4 @@
-﻿namespace Lucca_Suite.Algorithm
+﻿namespace LuccaDevises.Algorithm
 {
     public class Graph<T> where T : notnull
     {

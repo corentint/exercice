@@ -1,6 +1,6 @@
-﻿using Lucca_Suite.Algorithm;
+﻿using LuccaDevises.Algorithm;
 
-namespace Lucca_Suite.Interface
+namespace LuccaDevises.Interface
 {
     public interface IShortestPathFinder
     {

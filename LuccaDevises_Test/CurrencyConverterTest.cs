@@ -1,6 +1,6 @@
-using Lucca_Suite;
-using Lucca_Suite.Algorithm;
-using Lucca_Suite.Model;
+using LuccaDevises;
+using LuccaDevises.Algorithm;
+using LuccaDevises.Model;
 
 namespace Luccas_Suite_Test
 {
