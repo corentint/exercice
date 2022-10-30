@@ -3,7 +3,7 @@ using Lucca_Suite.Interface;
 
 namespace Lucca_Suite.Algorithm
 {
-    public class BFSAlgorithm : IShortestPathFinder
+    public class BFSAlgorithm: IShortestPathFinder
     {
         public IEnumerable<string> GetShortestPath(Graph<string> graph, string start, string end)
         {
@@ -22,7 +22,7 @@ namespace Lucca_Suite.Algorithm
             return shortestPathFunc(end);
         }
 
-        private Func<T, IEnumerable<T>> ShortestPathFunction<T>(Graph<T> graph, T start)
+        private static Func<T, IEnumerable<T>> ShortestPathFunction<T>(Graph<T> graph, T start) where T : notnull
         {
             var previous = new Dictionary<T, T>();
 

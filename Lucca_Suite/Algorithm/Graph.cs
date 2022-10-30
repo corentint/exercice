@@ -1,6 +1,6 @@
 ﻿namespace Lucca_Suite.Algorithm
 {
-    public class Graph<T>
+    public class Graph<T> where T : notnull
     {
         public Graph(IEnumerable<T> vertices, IEnumerable<Tuple<T, T>> edges)
         {
